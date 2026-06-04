@@ -1,3 +1,10 @@
 spring:
   application:
     name: sun
+  profiles:
+    active: dev
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true

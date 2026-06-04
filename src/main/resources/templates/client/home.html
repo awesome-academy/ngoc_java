@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{client/layouts/main}">
+    <body>
+        <div layout:fragment="content">
+
+            <!-- Hero Section -->
+            <section class="hero">
+                <h1>Explore Your Dream Destination</h1>
+                <p>Discover amazing tours around the world</p>
+                <a href="/tours" class="btn btn-primary">Explore Tours</a>
+            </section>
+
+            <!-- Featured Tours Section -->
+            <div class="container my-5">
+                <h2 class="section-title">Featured Tours</h2>
+                <p class="section-subtitle">Choose from our best-selling packages</p>
+
+                <div class="tour-grid">
+                    <!-- Tour Card 1 -->
+                    <div class="tour-card">
+                        <div class="tour-card-image">
+                            <span class="tour-card-badge">HOT</span>
+                        </div>
+                        <div class="tour-card-content">
+                            <h3 class="tour-card-title">Paris City Tour</h3>
+                            <p class="tour-card-subtitle">France • 5 days</p>
+                            <p class="tour-card-description">Experience the magic of Paris, visit iconic landmarks and enjoy French cuisine.</p>
+                            <div class="tour-card-footer">
+                                <span class="tour-card-price">$1,299</span>
+                                <button class="tour-card-btn">Book Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tour Card 2 -->
+                    <div class="tour-card">
+                        <div class="tour-card-image"></div>
+                        <div class="tour-card-content">
+                            <h3 class="tour-card-title">Tokyo Adventure</h3>
+                            <p class="tour-card-subtitle">Japan • 7 days</p>
+                            <p class="tour-card-description">Immerse yourself in Japanese culture, temples, and modern technology.</p>
+                            <div class="tour-card-footer">
+                                <span class="tour-card-price">$1,599</span>
+                                <button class="tour-card-btn">Book Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tour Card 3 -->
+                    <div class="tour-card">
+                        <div class="tour-card-image"></div>
+                        <div class="tour-card-content">
+                            <h3 class="tour-card-title">New York Escape</h3>
+                            <p class="tour-card-subtitle">USA • 4 days</p>
+                            <p class="tour-card-description">Explore the vibrant streets of NYC and witness the stunning skyline.</p>
+                            <div class="tour-card-footer">
+                                <span class="tour-card-price">$999</span>
+                                <button class="tour-card-btn">Book Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tour Card 4 -->
+                    <div class="tour-card">
+                        <div class="tour-card-image"></div>
+                        <div class="tour-card-content">
+                            <h3 class="tour-card-title">Bali Paradise</h3>
+                            <p class="tour-card-subtitle">Indonesia • 6 days</p>
+                            <p class="tour-card-description">Relax on pristine beaches and explore ancient temples in tropical paradise.</p>
+                            <div class="tour-card-footer">
+                                <span class="tour-card-price">$899</span>
+                                <button class="tour-card-btn">Book Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
