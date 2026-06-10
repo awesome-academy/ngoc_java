@@ -1,8 +1,6 @@
 spring:
   application:
     name: sun
-  profiles:
-    active: dev
 
   flyway:
     enabled: true

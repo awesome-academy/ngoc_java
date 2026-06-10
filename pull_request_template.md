@@ -1,7 +1,7 @@
 ## 📝 Description
 Init Project
 ## 🔗 Related Issue
-https://edu-redmine.sun-asterisk.vn/issues/98562
+<link-to-issue>
 
 ## 🛠 Type of Change
 <!-- Please check the options that are relevant to your changes. -->

@@ -11,17 +11,17 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/admin/tours/")
+@RequestMapping("/admin/tours")
 public class AdminTourController {
 
     @GetMapping("/new")
     public String createTour(Model model) {
         model.addAttribute("title", "Create Tour");
         // TODO: load categories from DB and add to model
-        return "admin/tours/create";
+        return "admin/tours/new";
     }
 
-    @GetMapping("/")
+    @GetMapping()
     public String listTours(Model model) {
         model.addAttribute("title", "Manage Tours");
 

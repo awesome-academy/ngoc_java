@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-    @GetMapping("/")
+    @GetMapping()
     public String dashboard(Model model) {
 
         model.addAttribute("title", "Dashboard");
