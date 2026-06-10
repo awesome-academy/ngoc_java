@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layouts/admin-layout}">
+
+<div layout:fragment="content">
+
+    <link rel="stylesheet" th:href="@{/css/admin-tours.css}">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Tours</h2>
+        <div>
+            <a th:href="@{/admin/tours/create}" class="btn btn-success">+ Create Tour</a>
+        </div>
+    </div>
+
+    <div class="card p-3 mb-3">
+        <div class="row g-2 align-items-center">
+            <div class="col-md-4">
+                <input id="searchInput" type="text" class="form-control" placeholder="Search by title, category...">
+            </div>
+            <div class="col-md-2">
+                <select id="filterStatus" class="form-select">
+                    <option value="">All status</option>
+                    <option value="published">Published</option>
+                    <option value="draft">Draft</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button id="btnSearch" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Seats</th>
+                    <th>Start Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Example: iterate over ${tours} provided by controller -->
+                <tr th:each="tour, iterStat : ${tours}">
+                    <td th:text="${iterStat.index + 1}">1</td>
+                    <td th:text="${tour.title}">Amazing Tour</td>
+                    <td th:text="${tour.categoryName}">Beach</td>
+                    <td th:text="${#numbers.formatInteger(tour.price, 0)} + ' VND'">1,000,000 VND</td>
+                    <td th:text="${tour.seats}">20</td>
+                    <td th:text="${tour.startDate}">2026-06-10</td>
+                    <td>
+                        <span th:classappend="${tour.published} ? 'badge bg-success' : 'badge bg-secondary'"
+                              th:text="${tour.published} ? 'Published' : 'Draft'">Published</span>
+                    </td>
+                    <td>
+                        <a th:href="@{'/admin/tours/' + ${tour.id} + '/edit'}" class="btn btn-sm btn-outline-primary me-1">Edit</a>
+                        <button type="button" class="btn btn-sm btn-outline-danger btn-delete" th:data-id="${tour.id}">Delete</button>
+                    </td>
+                </tr>
+                <!-- If no tours -->
+                <tr th:if="${#lists.isEmpty(tours)}">
+                    <td colspan="8" class="text-center py-4">No tours found.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card-footer d-flex justify-content-between align-items-center">
+            <div>
+                Showing <span th:text="${pageNumber}">1</span>
+            </div>
+            <nav>
+                <!-- pagination placeholder -->
+                <ul class="pagination mb-0">
+                    <li class="page-item"><a class="page-link" href="#">«</a></li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">»</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script th:src="@{/js/admin-tours.js}"></script>
+
+</div>
+
+</html>

@@ -11,4 +11,10 @@ public class ClientController {
         model.addAttribute("title", "Home");
         return "client/home";
     }
+
+    @GetMapping("/login")
+    public String login(Model model) {
+        model.addAttribute("title", "Login - Tour Booking");
+        return "client/login";
+    }
 }
