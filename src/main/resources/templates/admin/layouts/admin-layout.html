@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Admin Panel</title>
+        <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+        <link rel="stylesheet" th:href="@{/css/admin.css}">
+    </head>
+
+    <body>
+        <div th:replace="~{admin/layouts/sidebar :: sidebar}">
+        </div>
+
+        <nav class="admin-navbar">
+            <div class="navbar-brand">TOUR MANAGEMENT</div>
+        </nav>
+
+        <div style="margin-left: 16.666667%;">
+            <div class="admin-content">
+                <div class="p-4">
+                    <div layout:fragment="content"></div>
+                </div>
+            </div>
+        </div>
+        <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    </body>
+</html>

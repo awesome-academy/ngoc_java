@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: ${DB_TOUR_PROJECT_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  logging:
+    level:
+      root: INFO
+      com.bookingtour.sun: DEBUG
+      org.hibernate.SQL: DEBUG
+      org.hibernate.orm.jdbc.bind: TRACE
+      org.springframework.security: DEBUG

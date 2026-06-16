@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+
+        <div th:fragment="sidebar"
+             class="bg-dark text-white min-vh-100">
+            <div class="p-3">
+                <h4 class="mb-4">
+                    Admin Panel
+                </h4>
+
+                <div class="list-group">
+                    <a th:href="@{/admin}"
+                       class="list-group-item list-group-item-action">
+                        Dashboard
+                    </a>
+
+                    <a th:href="@{/admin/users}"
+                       class="list-group-item list-group-item-action">
+                        Users
+                    </a>
+
+                    <a th:href="@{/admin/categories}"
+                       class="list-group-item list-group-item-action">
+                        Categories
+                    </a>
+
+                    <a th:href="@{/admin/tours}"
+                       class="list-group-item list-group-item-action">
+                        Tours
+                    </a>
+
+                    <a th:href="@{/admin/bookings}"
+                       class="list-group-item list-group-item-action">
+                        Bookings
+                    </a>
+
+                    <a th:href="@{/admin/reviews}"
+                       class="list-group-item list-group-item-action">
+                        Reviews
+                    </a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

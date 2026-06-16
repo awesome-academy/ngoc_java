@@ -1,0 +1,21 @@
+/* Admin tours list styles */
+.table thead th {
+    vertical-align: middle;
+}
+
+.card .table td, .card .table th {
+    vertical-align: middle;
+}
+
+.btn-delete {
+    transition: all 0.2s ease;
+}
+
+.btn-delete:hover {
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .card-footer .pagination { display: none; }
+}
+

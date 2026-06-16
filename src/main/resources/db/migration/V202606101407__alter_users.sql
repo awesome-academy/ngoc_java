@@ -1,0 +1,3 @@
+ALTER TABLE users
+    MODIFY COLUMN status VARCHAR(20) NOT NULL default 'ACTIVE',
+    MODIFY COLUMN role VARCHAR(20) NOT NULL default 'USER';

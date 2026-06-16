@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layouts/admin-layout}">
+    <body>
+        <div layout:fragment="content">
+            <h2 class="mb-4">
+                Dashboard
+            </h2>
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <div class="card text-bg-primary">
+                        <div class="card-body">
+                            <h5>Total Users</h5>
+                            <h2>120</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card text-bg-success">
+                        <div class="card-body">
+                            <h5>Total Tours</h5>
+                            <h2>45</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card text-bg-warning">
+                        <div class="card-body">
+                            <h5>Bookings</h5>
+                            <h2>350</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card text-bg-danger">
+                        <div class="card-body">
+                            <h5>Revenue</h5>
+                            <h2>$15,000</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
