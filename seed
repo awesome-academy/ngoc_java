@@ -1,0 +1,42 @@
+INSERT INTO categories (
+    name,
+    description,
+    image_url,
+    created_at,
+    updated_at
+) VALUES
+(
+    'Tour Biển',
+    'Các tour du lịch biển trong nước và quốc tế',
+    'https://example.com/images/beach-tour.jpg',
+    NOW(),
+    NOW()
+),
+(
+    'Tour Núi',
+    'Khám phá các địa điểm du lịch vùng núi',
+    'https://example.com/images/mountain-tour.jpg',
+    NOW(),
+    NOW()
+),
+(
+    'Tour Văn Hóa',
+    'Trải nghiệm văn hóa và lịch sử địa phương',
+    'https://example.com/images/culture-tour.jpg',
+    NOW(),
+    NOW()
+),
+(
+    'Tour Sinh Thái',
+    'Khám phá thiên nhiên và hệ sinh thái',
+    'https://example.com/images/eco-tour.jpg',
+    NOW(),
+    NOW()
+),
+(
+    'Tour Nước Ngoài',
+    'Các tour du lịch quốc tế hấp dẫn',
+    'https://example.com/images/international-tour.jpg',
+    NOW(),
+    NOW()
+);

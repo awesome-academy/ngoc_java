@@ -10,40 +10,44 @@
 
             <h2 class="mb-4">Create Tour</h2>
 
-            <form th:action="@{/admin/tours}" method="post" enctype="multipart/form-data" class="create-tour-form">
+            <form th:action="@{/admin/tours}" method="post" th:object="${tour}" enctype="multipart/form-data" class="create-tour-form">
 
                 <div class="row">
                     <div class="col-md-8">
 
                         <div class="form-group mb-3">
                             <label class="form-label">Title</label>
-                            <input type="text" name="title" id="title" class="form-control" placeholder="Amazing Halong Bay" required>
+                            <input type="text" th:field="*{name}" class="form-control" placeholder="Amazing Halong Bay" required>
                         </div>
 
                         <div class="form-group mb-3">
-                            <label class="form-label">Short Description</label>
-                            <textarea name="shortDescription" id="shortDescription" class="form-control" rows="3" placeholder="Short summary..."></textarea>
+                            <label class="form-label">Description</label>
+                            <textarea th:field="*{description}" id="description" class="form-control" rows="6" placeholder="Describe the tour..."></textarea>
                         </div>
 
                         <div class="form-group mb-3">
-                            <label class="form-label">Detailed Description</label>
-                            <textarea name="description" id="description" class="form-control" rows="6" placeholder="Describe the tour..."></textarea>
+                            <label class="form-label">Departure Location</label>
+                            <textarea th:field="*{departureLocation}" id="shortDescription" class="form-control" rows="3" placeholder="Short summary..."></textarea>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label">Destination</label>
+                            <textarea th:field="*{destination}" id="destination" class="form-control" rows="3" placeholder="Short summary..."></textarea>
                         </div>
 
                         <div class="form-row d-flex gap-3">
                             <div class="form-group flex-fill">
                                 <label class="form-label">Price (VND)</label>
-                                <input type="number" name="price" id="price" class="form-control" min="0" required>
+                                <input type="number" th:field="*{price}" id="price" class="form-control" min="0" required>
                             </div>
 
                             <div class="form-group flex-fill">
-                                <label class="form-label">Seats</label>
-                                <input type="number" name="seats" id="seats" class="form-control" min="1" required>
+                                <label class="form-label">Max People</label>
+                                <input type="number" th:field="*{maxPeople}" id="seats" class="form-control" min="1" required>
                             </div>
 
                             <div class="form-group flex-fill">
                                 <label class="form-label">Duration (days)</label>
-                                <input type="number" name="duration" id="duration" class="form-control" min="1">
+                                <input type="number" th:field="*{durationDays}" id="duration" class="form-control" min="1">
                             </div>
                         </div>
 
@@ -53,26 +57,40 @@
                         <div class="card p-3">
                             <div class="form-group mb-3">
                                 <label class="form-label">Category</label>
-                                <select name="categoryId" id="categoryId" class="form-select">
-                                    <option value="">-- Select category --</option>
-                                    <!-- Example options; replace with th:each in controller -->
-                                    <option value="1">Beach</option>
-                                    <option value="2">Mountain</option>
-                                    <option value="3">City</option>
+                                <select th:field="*{categoryId}" class="form-select">
+                                    <option value="">
+                                        Select Category
+                                    </option>
+                                    <option
+                                            th:each="category : ${categories}"
+                                            th:value="${category.id}"
+                                            th:text="${category.name}">
+                                    </option>
                                 </select>
                             </div>
 
                             <div class="form-group mb-3">
                                 <label class="form-label">Start Date</label>
-                                <input type="date" name="startDate" id="startDate" class="form-control">
+                                <input type="date" th:field="*{startDate}" class="form-control">
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label class="form-label">End Date</label>
+                                <input type="date" th:field="*{endDate}" class="form-control">
                             </div>
 
                             <div class="form-group mb-3">
                                 <label class="form-label">Status</label>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="published" id="published" checked>
-                                    <label class="form-check-label" for="published">Published</label>
-                                </div>
+                                <select th:field="*{status}" class="form-select">
+                                    <option value="">
+                                        Select Status
+                                    </option>
+                                    <option
+                                            th:each="status : ${statuses}"
+                                            th:value="${status}"
+                                            th:text="${status}">
+                                    </option>
+                                </select>
                             </div>
 
                             <div class="form-group mb-3">
@@ -84,7 +102,6 @@
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary">Create Tour</button>
                             </div>
-
                         </div>
                     </div>
                 </div>
