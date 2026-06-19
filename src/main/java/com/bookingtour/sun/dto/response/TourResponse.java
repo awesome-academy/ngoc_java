@@ -23,5 +23,6 @@ public class TourResponse {
     private LocalDate startDate;
     private LocalDate  endDate;
     private Long categoryId;
+    private String categoryName;
     private TourStatus status;
 }

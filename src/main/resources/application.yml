@@ -6,3 +6,12 @@ spring:
     enabled: true
     locations: classpath:db/migration
     baseline-on-migrate: true
+# Turn on hiddenhttpmethodfilter to support HTTP methods like PUT and DELETE in forms
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+
+# File upload directory (root property expected by FileStorageService)
+file:
+  upload-dir: uploads/tours

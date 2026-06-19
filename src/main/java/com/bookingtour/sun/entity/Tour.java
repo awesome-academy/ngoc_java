@@ -9,6 +9,8 @@ import com.bookingtour.sun.entity.Category;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "tours")
@@ -67,4 +69,12 @@ public class Tour extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(length = 30)
     private TourStatus status;
+
+    @OneToMany(
+            mappedBy = "tour",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @Builder.Default
+    private List<TourImage> images = new ArrayList<>();
 }

@@ -1,10 +1,8 @@
 package com.bookingtour.sun.dto.request;
 
 import com.bookingtour.sun.enums.TourStatus;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,7 +16,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CreateTourRequest {
+public class EditTourRequest {
+    private Long id;
+
     @NotBlank(message = "Name is required")
     @Size(min = 2, max = 255, message = "Name must be between 2 and 255 characters")
     private String name;
@@ -44,5 +44,7 @@ public class CreateTourRequest {
     private LocalDate  endDate;
     private Long categoryId;
     private TourStatus status;
-    private List<MultipartFile> images;
+
+    private List<MultipartFile> newImages;
+    private List<Long> deletedImageIds;
 }
