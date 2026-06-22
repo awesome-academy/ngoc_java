@@ -424,3 +424,114 @@ main.container {
 }
 
 
+/* ============================================
+   SEARCH BAR & PAGINATION
+   ============================================ */
+.search-bar-container {
+    border: 1px solid var(--border-light);
+}
+
+.tour-search-btn {
+    background-color: var(--primary-color) !important;
+    border: none;
+    padding: 0.6rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.tour-search-btn:hover {
+    background-color: var(--primary-dark) !important;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.pagination .page-link {
+    color: var(--primary-color);
+    border-color: var(--border-light);
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+/* ============================================
+   TOUR DETAIL & BOOKING CARD
+   ============================================ */
+.booking-card {
+    border: 1px solid var(--border-light);
+    border-top: 4px solid var(--primary-color);
+    z-index: 10;
+}
+
+.booking-card .tour-card-price {
+    color: var(--primary-color);
+    font-weight: 800;
+    font-size: 2rem;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: rgba(0, 102, 204, 0.1);
+    color: var(--primary-color);
+}
+
+.accordion-button:focus {
+    box-shadow: none;
+    border-color: var(--border-light);
+}
+
+.breadcrumb-item a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.breadcrumb-item a:hover {
+    text-decoration: underline;
+}
+
+/* ============================================
+   BOOKING LIST PAGE
+   ============================================ */
+.booking-list-card {
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-light) !important;
+}
+
+.booking-list-card:hover {
+    box-shadow: var(--shadow-md) !important;
+    transform: translateY(-3px);
+}
+
+.booking-img-wrapper {
+    background-size: cover;
+    background-position: center;
+}
+
+/* Tab Styles */
+.nav-tabs .nav-link {
+    transition: all 0.2s ease;
+}
+
+.nav-tabs .nav-link:hover:not(.active) {
+    background-color: #e9ecef !important;
+}
+
+/* Sidebar Menu Styles */
+.list-group-item {
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.list-group-item:hover:not(.active) {
+    background-color: var(--border-light);
+    color: var(--primary-color);
+}
+
+/* Utility for cancelled booking opacity */
+.opacity-75 {
+    opacity: 0.75;
+}
+.opacity-75:hover {
+    opacity: 0.9;
+}

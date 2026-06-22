@@ -1,4 +1,6 @@
 package com.bookingtour.sun.specification;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +18,9 @@ public class TourSpecification {
     public static Specification<Tour> filter(
             String name,
             Long categoryId,
-            TourStatus status
+            TourStatus status,
+            LocalDate startDate,
+            BigDecimal maxPrice
     ) {
 
         return (root, query, cb) -> {
@@ -46,6 +50,24 @@ public class TourSpecification {
                         cb.equal(
                                 root.get("status"),
                                 status
+                        )
+                );
+            }
+
+            if (startDate != null) {
+                predicates.add(
+                        cb.greaterThanOrEqualTo(
+                                root.get("startDate"),
+                                startDate
+                        )
+                );
+            }
+
+            if (maxPrice != null) {
+                predicates.add(
+                        cb.lessThanOrEqualTo(
+                                root.get("price"),
+                                maxPrice
                         )
                 );
             }

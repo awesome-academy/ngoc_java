@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,4 +26,6 @@ public class TourResponse {
     private Long categoryId;
     private String categoryName;
     private TourStatus status;
+    private String imageUrl;
+    private List<TourItineraryResponse> itineraries;
 }

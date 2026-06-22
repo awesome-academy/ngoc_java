@@ -4,7 +4,6 @@
       layout:decorate="~{admin/layouts/admin-layout}">
     <body>
         <div layout:fragment="content">
-
             <!-- Page-specific CSS -->
             <link rel="stylesheet" th:href="@{/css/admin-tour.css}">
 
@@ -13,9 +12,18 @@
             <form th:action="@{/admin/tours/{id}(id=${tour.id})}" method="post" th:object="${tour}" enctype="multipart/form-data" class="create-tour-form">
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                 <input type="hidden" name="_method" value="put">
+                <div th:if="${#fields.hasAnyErrors()}"
+                     class="alert alert-danger">
+                    <strong>Please fix the following errors:</strong>
+
+                    <ul class="mb-0 mt-2">
+                        <li th:each="error : ${#fields.errors('*')}"
+                            th:text="${error}">
+                        </li>
+                    </ul>
+                </div>
                 <div class="row">
                     <div class="col-md-8">
-
                         <div class="form-group mb-3">
                             <label class="form-label">Title</label>
                             <input type="text" th:field="*{name}" class="form-control" placeholder="Amazing Halong Bay" required>
@@ -71,7 +79,51 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="mb-0">Tour Itinerary</h5>
 
+                                <button type="button"
+                                        id="addItineraryBtn"
+                                        class="btn btn-sm btn-success">
+                                    + Add Day
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <div id="itinerariesContainer">
+                                <div class="card mb-3 itinerary-item"
+                                     th:each="itinerary, stat : *{itineraries}">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between mb-3">
+                                            <h6 class="mb-0 itinerary-heading">
+                                                Day [[${itinerary.dayNumber}]]
+                                            </h6>
+                                            <button type="button" class="btn btn-danger btn-sm remove-itinerary">
+                                                Remove
+                                            </button>
+                                        </div>
+                                        <input type="hidden" class="itinerary-id" th:field="*{itineraries[__${stat.index}__].id}" />
+
+                                        <input type="hidden" class="day-number" th:field="*{itineraries[__${stat.index}__].dayNumber}" />
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Title</label>
+                                            <input type="text" class="form-control itinerary-title" th:field="*{itineraries[__${stat.index}__].title}" />
+                                        </div>
+
+                                        <div>
+                                            <label class="form-label">Description</label>
+
+                                            <textarea rows="5" class="form-control itinerary-description"
+                                                      th:field="*{itineraries[__${stat.index}__].description}">
+                                            </textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
                         </div>
                         <div class="col-md-4">
                             <div class="card p-3">
@@ -159,12 +211,42 @@
                             </div>
 
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-primary">Create Tour</button>
+                                <button type="submit" class="btn btn-primary">Update Tour</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </form>
+            <template id="itineraryTemplate">
+                <div class="card mb-3 itinerary-item">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-3">
+                            <h6 class="mb-0 itinerary-heading">
+                                Day 1
+                            </h6>
+                            <button type="button"
+                                    class="btn btn-danger btn-sm remove-itinerary">
+                                Remove
+                            </button>
+                        </div>
+                        <input type="hidden" class="itinerary-id">
+                        <input type="hidden" class="day-number">
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Title
+                            </label>
+                            <input type="text" class="form-control itinerary-title">
+                        </div>
+                        <div>
+                            <label class="form-label">
+                                Description
+                            </label>
+                            <textarea rows="5" class="form-control itinerary-description"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <script th:src="@{/js/admin-edit-tour.js}"></script>
         </div>
     </body>
 </html>
