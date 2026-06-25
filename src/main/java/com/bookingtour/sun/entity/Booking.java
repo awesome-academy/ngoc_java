@@ -3,7 +3,7 @@ import com.bookingtour.sun.enums.BookingStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "bookings")
@@ -43,7 +43,7 @@ public class Booking extends BaseEntity {
     private BigDecimal totalAmount;
 
     @Column(name = "booking_date")
-    private LocalDateTime bookingDate;
+    private LocalDate bookingDate;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
@@ -55,7 +55,7 @@ public class Booking extends BaseEntity {
     @PrePersist
     public void prePersist() {
         if (bookingDate == null) {
-            bookingDate = LocalDateTime.now();
+            bookingDate = LocalDate.now();
         }
 
         if (status == null) {

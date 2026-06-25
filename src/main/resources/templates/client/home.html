@@ -19,59 +19,18 @@
 
                 <div class="tour-grid">
                     <!-- Tour Card 1 -->
-                    <div class="tour-card">
+                    <div class="tour-card" th:each="tour : ${topTours}">
                         <div class="tour-card-image">
+                            <img th:src="${tour.imageUrl != null ? tour.imageUrl : '/uploads/tours/default-tour.jpg'}" alt="Tour image">
                             <span class="tour-card-badge">HOT</span>
                         </div>
                         <div class="tour-card-content">
-                            <h3 class="tour-card-title">Paris City Tour</h3>
-                            <p class="tour-card-subtitle">France • 5 days</p>
-                            <p class="tour-card-description">Experience the magic of Paris, visit iconic landmarks and enjoy French cuisine.</p>
+                            <h3 class="tour-card-title" th:text="${tour.name}"></h3>
+                            <p class="tour-card-subtitle" th:text="|${tour.categoryName} • ${tour.durationDays} days|"></p>
+                            <p class="tour-card-description" th:text="${tour.description}"></p>
                             <div class="tour-card-footer">
-                                <span class="tour-card-price">$1,299</span>
-                                <button class="tour-card-btn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Tour Card 2 -->
-                    <div class="tour-card">
-                        <div class="tour-card-image"></div>
-                        <div class="tour-card-content">
-                            <h3 class="tour-card-title">Tokyo Adventure</h3>
-                            <p class="tour-card-subtitle">Japan • 7 days</p>
-                            <p class="tour-card-description">Immerse yourself in Japanese culture, temples, and modern technology.</p>
-                            <div class="tour-card-footer">
-                                <span class="tour-card-price">$1,599</span>
-                                <button class="tour-card-btn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Tour Card 3 -->
-                    <div class="tour-card">
-                        <div class="tour-card-image"></div>
-                        <div class="tour-card-content">
-                            <h3 class="tour-card-title">New York Escape</h3>
-                            <p class="tour-card-subtitle">USA • 4 days</p>
-                            <p class="tour-card-description">Explore the vibrant streets of NYC and witness the stunning skyline.</p>
-                            <div class="tour-card-footer">
-                                <span class="tour-card-price">$999</span>
-                                <button class="tour-card-btn">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Tour Card 4 -->
-                    <div class="tour-card">
-                        <div class="tour-card-image"></div>
-                        <div class="tour-card-content">
-                            <h3 class="tour-card-title">Bali Paradise</h3>
-                            <p class="tour-card-subtitle">Indonesia • 6 days</p>
-                            <p class="tour-card-description">Relax on pristine beaches and explore ancient temples in tropical paradise.</p>
-                            <div class="tour-card-footer">
-                                <span class="tour-card-price">$899</span>
-                                <button class="tour-card-btn">Book Now</button>
+                                <span class="tour-card-price" th:text="'$' + ${#numbers.formatDecimal(tour.price, 1, 2)}"></span>
+                                <a th:href="@{/tours/{id}(id=${tour.id})}" class="tour-card-btn text-decoration-none">Book Now</a>
                             </div>
                         </div>
                     </div>

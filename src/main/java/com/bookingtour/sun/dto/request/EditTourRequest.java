@@ -1,6 +1,7 @@
 package com.bookingtour.sun.dto.request;
 
 import com.bookingtour.sun.enums.TourStatus;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -9,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -44,7 +46,12 @@ public class EditTourRequest {
     private LocalDate  endDate;
     private Long categoryId;
     private TourStatus status;
+    private String categoryName;
 
     private List<MultipartFile> newImages;
     private List<Long> deletedImageIds;
+
+    @Builder.Default
+    @Valid
+    private List<EditTourItineraryRequest> itineraries = new ArrayList<>();
 }

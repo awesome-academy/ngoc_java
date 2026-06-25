@@ -77,4 +77,12 @@ public class Tour extends BaseEntity {
     )
     @Builder.Default
     private List<TourImage> images = new ArrayList<>();
+
+    @OneToMany(
+            mappedBy = "tour",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @OrderBy("dayNumber ASC")
+    private List<TourItinerary> itineraries = new ArrayList<>();
 }
