@@ -1,8 +1,6 @@
 package com.bookingtour.sun.services;
 
-import com.bookingtour.sun.dto.request.BookingSearchRequest;
-import com.bookingtour.sun.dto.request.CreateBookingRequest;
-import com.bookingtour.sun.dto.request.PageResponse;
+import com.bookingtour.sun.dto.request.*;
 import com.bookingtour.sun.dto.response.BookingReponse;
 import com.bookingtour.sun.entity.Booking;
 import com.bookingtour.sun.entity.Tour;
@@ -12,6 +10,7 @@ import com.bookingtour.sun.exception.ResourceNotFoundException;
 import com.bookingtour.sun.repository.BookingRepository;
 import com.bookingtour.sun.repository.TourRepository;
 import com.bookingtour.sun.repository.UserRepository;
+import com.bookingtour.sun.specification.AdminBookingSpecification;
 import com.bookingtour.sun.specification.BookingSpecification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +19,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -85,6 +83,60 @@ public class BookingService {
                 .build();
     }
 
+    public PageResponse<BookingReponse> getAdminBookings(AdminBookingSearchRequest request) {
+        log.info("Admin search booking for keyword: {}, status: {} ", request.getKeyword(), request.getStatus());
+        Pageable pageable = PageRequest.of(
+                request.getPage(),
+                request.getSize(),
+                Sort.by(
+                        Sort.Direction.DESC,
+                        "bookingDate")
+        );
+
+        Page<Booking> bookings =
+                bookingRepository.findAll(
+                        AdminBookingSpecification.filter(
+                                request.getKeyword(),
+                                request.getStatus()),
+                        pageable);
+        List<BookingReponse> content =
+                bookings.getContent()
+                        .stream()
+                        .map(this::toBookingResponse)
+                        .toList();
+        return PageResponse.<BookingReponse>builder()
+                .content(content)
+                .page(bookings.getNumber())
+                .size(bookings.getSize())
+                .totalElements(bookings.getTotalElements())
+                .totalPages(bookings.getTotalPages())
+                .build();
+    }
+
+    public AdminEditBookingRequest getBookingForEdit(Long id) {
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Booking not found with id: " + id));
+
+        AdminEditBookingRequest request = new AdminEditBookingRequest();
+
+        request.setId(booking.getId());
+        request.setStatus(booking.getStatus());
+        request.setUserName(booking.getUser().getUsername());
+        request.setTourName(booking.getTour().getName());
+        request.setBookingDate(booking.getBookingDate());
+        request.setNote(booking.getNote());
+
+        return request;
+    }
+
+    public void updateBooking(Long id, AdminEditBookingRequest request) {
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Booking not found with id: " + id));
+        booking.setStatus(request.getStatus());
+        booking.setNote(request.getNote());
+        bookingRepository.save(booking);
+    }
+
     private BookingReponse toBookingResponse(
             Booking booking) {
 
@@ -105,6 +157,8 @@ public class BookingService {
                 .totalAmount(booking.getTotalAmount())
                 .bookingDate(booking.getBookingDate())
                 .status(booking.getStatus())
+                .userId(booking.getUser().getId())
+                .userName(booking.getUser().getUsername())
                 .build();
     }
 }

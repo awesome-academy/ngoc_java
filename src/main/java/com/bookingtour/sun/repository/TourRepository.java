@@ -11,4 +11,6 @@ public interface TourRepository extends JpaRepository<Tour, Long>, JpaSpecificat
     List<Tour> findTop4ByStatusOrderByAverageRatingDesc(
             TourStatus status
     );
+
+    long count();
 }

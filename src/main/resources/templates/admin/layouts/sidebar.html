@@ -5,39 +5,40 @@
         <div th:fragment="sidebar"
              class="bg-dark text-white min-vh-100">
             <div class="p-3">
-                <h4 class="mb-4">
+                <h4 class="mb-4 text-white">
                     Admin Panel
                 </h4>
 
                 <div class="list-group">
                     <a th:href="@{/admin}"
-                       class="list-group-item list-group-item-action">
+                       class="list-group-item list-group-item-action"
+                       th:classappend="${activeMenu == 'home'} ? ' active' : ''"
+                    >
                         Dashboard
                     </a>
 
                     <a th:href="@{/admin/users}"
-                       class="list-group-item list-group-item-action">
+                       class="list-group-item list-group-item-action"
+                       th:classappend="${activeMenu == 'users'} ? ' active' : ''">
                         Users
                     </a>
 
                     <a th:href="@{/admin/categories}"
-                       class="list-group-item list-group-item-action">
+                       class="list-group-item list-group-item-action"
+                        th:classappend="${activeMenu == 'categories'} ? ' active' : ''">
                         Categories
                     </a>
 
                     <a th:href="@{/admin/tours}"
-                       class="list-group-item list-group-item-action">
+                       class="list-group-item list-group-item-action"
+                        th:classappend="${activeMenu == 'tours'} ? ' active' : ''">
                         Tours
                     </a>
 
                     <a th:href="@{/admin/bookings}"
-                       class="list-group-item list-group-item-action">
+                       class="list-group-item list-group-item-action"
+                        th:classappend="${activeMenu == 'bookings'} ? ' active' : ''">
                         Bookings
-                    </a>
-
-                    <a th:href="@{/admin/reviews}"
-                       class="list-group-item list-group-item-action">
-                        Reviews
                     </a>
                 </div>
             </div>
