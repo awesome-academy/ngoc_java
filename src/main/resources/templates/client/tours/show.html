@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{client/layouts/main}">
+      layout:decorate="~{client/layouts/main}"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
     <body>
         <div layout:fragment="content">
             <div class="container my-5">
@@ -15,8 +16,33 @@
                 </nav>
 
                 <div class="row">
+                    <div th:if="${successMessage}"
+                         class="alert alert-success alert-dismissible fade show">
+                        <span th:text="${successMessage}"></span>
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="alert">
+                        </button>
+                    </div>
+                    <div th:if="${errorMessage}"
+                         class="alert alert-danger">
+                        <span th:text="${errorMessage}"></span>
+
+                    </div>
                     <div class="col-lg-8 mb-4">
                         <h1 class="fw-bold mb-2" th:text="${tour.name}"></h1>
+                        <div class="mb-3">
+                            <span class="text-warning fs-4">★</span>
+
+                            <span class="fw-bold" th:text="${tour.averageRating}"></span>
+                            <span>
+                                (
+                                <span th:text="${tour.reviewCount}">
+                                </span>
+                                reviews
+                                )
+                            </span>
+                        </div>
                         <p class="text-muted mb-4" th:text="|${tour.categoryName} • ${tour.durationDays} days|"><i class="bi bi-geo-alt"></i></p>
 
                         <div class="tour-detail-gallery mb-4 rounded overflow-hidden">
@@ -67,6 +93,34 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="tour-section mt-5">
+                            <form th:action="@{/tours/{id}/reviews(id=${tour.id})}" method="post" sec:authorize="isAuthenticated()">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                                <select name="rating" class="form-control">
+                                    <option value="5">⭐⭐⭐⭐⭐</option>
+                                    <option value="4">⭐⭐⭐⭐</option>
+                                    <option value="3">⭐⭐⭐</option>
+                                    <option value="2">⭐⭐</option>
+                                    <option value="1">⭐</option>
+
+                                </select>
+                                <textarea name="comment" class="form-control mt-3" placeholder="Your review"></textarea>
+                                <button class="btn btn-primary mt-3">Submit Review</button>
+                            </form>
+                            <h3>Customer Reviews</h3>
+
+                            <div class="mb-4"
+                                 th:each="review:${reviews}">
+                                <div>
+                                    <strong th:text="${review.user.fullName}">
+                                    </strong>
+                                    <span>⭐</span>
+                                    <span th:text="${review.rating}"></span>
+                                </div>
+                                <p th:text="${review.comment}"></p>
+                                <hr>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="col-lg-4">
@@ -100,7 +154,22 @@
                                     <span class="fw-bold fs-4 text-primary" id="totalPrice">$1,299</span>
                                 </div>
 
-                                <button type="submit" class="btn btn-warning w-100 py-3 fw-bold fs-5 text-uppercase">Đặt Tour Ngay</button>
+                                <button sec:authorize="isAuthenticated()"
+                                         type="submit"
+                                         class="btn btn-warning w-100 py-3 fw-bold fs-5 text-uppercase">
+
+                                    Đặt Tour Ngay
+                                </button>
+
+
+                                <!-- Chưa login -->
+                                <button sec:authorize="!isAuthenticated()"
+                                        type="button"
+                                        class="btn btn-secondary w-100 py-3 fw-bold fs-5 text-uppercase"
+                                        disabled>
+
+                                    🔒 Đăng nhập để đặt tour
+                                </button>
                             </form>
 
                             <div class="text-center mt-3 text-muted small">

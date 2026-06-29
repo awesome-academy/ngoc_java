@@ -52,6 +52,10 @@ public class Booking extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String note;
 
+    @OneToOne(mappedBy = "booking",
+            cascade = CascadeType.ALL)
+    private Payment payment;
+
     @PrePersist
     public void prePersist() {
         if (bookingDate == null) {

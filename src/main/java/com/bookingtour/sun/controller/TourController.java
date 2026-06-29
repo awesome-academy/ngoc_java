@@ -3,17 +3,17 @@ package com.bookingtour.sun.controller;
 import com.bookingtour.sun.dto.request.ClientTourSearchRequest;
 import com.bookingtour.sun.dto.request.EditTourRequest;
 import com.bookingtour.sun.dto.request.PageResponse;
+import com.bookingtour.sun.dto.request.ReviewRequest;
 import com.bookingtour.sun.dto.response.TourResponse;
 import com.bookingtour.sun.services.CategoryService;
+import com.bookingtour.sun.services.CurrentUserService;
+import com.bookingtour.sun.services.TourReviewService;
 import com.bookingtour.sun.services.TourService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -23,6 +23,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class TourController {
     private final CategoryService categoryService;
     private final TourService tourService;
+    private final TourReviewService reviewService;
+    private final CurrentUserService currentUserService;
 
     @GetMapping("")
     public String listTour(@ModelAttribute ClientTourSearchRequest searchForm, Model model) {
@@ -52,6 +54,7 @@ public class TourController {
             model.addAttribute("tour", request);
             model.addAttribute("tourImages", tourService.getTourImages(id));
             model.addAttribute("tourItineraries", tourService.getTourItineraries(id));
+            model.addAttribute("reviews", reviewService.getReviews(id));
 
             return "client/tours/show";
         } catch (Exception e) {
@@ -59,5 +62,21 @@ public class TourController {
             redirectAttributes.addFlashAttribute("errorMessage", "Failed to fetch tour for viewing: " + e.getMessage());
             return "redirect:/tours";
         }
+    }
+
+    @PostMapping("/{id}/reviews")
+    public String review(
+            @PathVariable Long id,
+            @ModelAttribute ReviewRequest request,
+            RedirectAttributes redirectAttributes){
+
+        try {
+            String email = currentUserService.getCurrentUserEmail();
+            reviewService.createReview(id, email, request);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Failed to review tour for viewing: " + e.getMessage());
+        }
+
+        return "redirect:/tours/"+id;
     }
 }

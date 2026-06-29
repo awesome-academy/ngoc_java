@@ -6,7 +6,9 @@ import com.bookingtour.sun.entity.Booking;
 import com.bookingtour.sun.entity.Tour;
 import com.bookingtour.sun.entity.TourImage;
 import com.bookingtour.sun.entity.User;
+import com.bookingtour.sun.enums.BookingStatus;
 import com.bookingtour.sun.exception.ResourceNotFoundException;
+import com.bookingtour.sun.exception.UnauthorizedException;
 import com.bookingtour.sun.repository.BookingRepository;
 import com.bookingtour.sun.repository.TourRepository;
 import com.bookingtour.sun.repository.UserRepository;
@@ -134,6 +136,23 @@ public class BookingService {
                 .orElseThrow(() -> new ResourceNotFoundException("Booking not found with id: " + id));
         booking.setStatus(request.getStatus());
         booking.setNote(request.getNote());
+        bookingRepository.save(booking);
+    }
+
+    public void cancelBooking(Long bookingId, String email) {
+        Booking booking = bookingRepository.findById(bookingId)
+                        .orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
+
+        // check booking owner
+        if(!booking.getUser().getEmail().equals(email)) {
+            throw new UnauthorizedException("You cannot cancel this booking");
+        }
+
+        // chỉ pending payment mới được cancel
+        if(booking.getStatus() != BookingStatus.PENDING_PAYMENT){
+            throw new IllegalStateException("Only pending payment booking can be cancelled");
+        }
+        booking.setStatus(BookingStatus.CANCELLED);
         bookingRepository.save(booking);
     }
 

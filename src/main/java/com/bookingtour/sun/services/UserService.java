@@ -1,6 +1,7 @@
 package com.bookingtour.sun.services;
 
 import com.bookingtour.sun.dto.request.PageResponse;
+import com.bookingtour.sun.dto.request.RegisterRequest;
 import com.bookingtour.sun.dto.request.UserSearchRequest;
 import com.bookingtour.sun.dto.response.UserResponse;
 import com.bookingtour.sun.entity.User;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public PageResponse<UserResponse> searchUsers(UserSearchRequest request) {
         Pageable pageable = PageRequest.of(
@@ -48,6 +51,17 @@ public class UserService {
                 .totalElements(page.getTotalElements())
                 .totalPages(page.getTotalPages())
                 .build();
+    }
+
+    public void register(RegisterRequest request) {
+        User user = User.builder()
+                .username(request.getUsername())
+                .fullName(request.getFullName())
+                .email(request.getEmail())
+                .phone(request.getPhone())
+                .passwordDigest(passwordEncoder.encode(request.getPassword()))
+                .build();
+        userRepository.save(user);
     }
 
     private UserResponse mapToResponse(User user) {

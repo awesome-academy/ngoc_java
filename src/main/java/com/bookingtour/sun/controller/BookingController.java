@@ -5,6 +5,7 @@ import com.bookingtour.sun.dto.request.CreateBookingRequest;
 import com.bookingtour.sun.dto.request.PageResponse;
 import com.bookingtour.sun.dto.response.BookingReponse;
 import com.bookingtour.sun.services.BookingService;
+import com.bookingtour.sun.services.CurrentUserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -24,12 +26,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Slf4j
 public class BookingController {
     private final BookingService bookingService;
+    private final CurrentUserService currentUserService;
 
     @GetMapping("")
-    public String listBooking(@AuthenticationPrincipal UserDetails userDetails,
-                              Model model,
+    public String listBooking(Model model,
                               BookingSearchRequest request) {
-        String email = userDetails.getUsername();
+        String email = currentUserService.getCurrentUserEmail();
+
         PageResponse<BookingReponse> bookings = bookingService.getMyBooking(email, request);
         model.addAttribute("bookings", bookings.getContent());
 
@@ -51,8 +54,8 @@ public class BookingController {
             redirectAttributes.addFlashAttribute("errorMessage", "Thông tin đặt tour không hợp lệ");
             return "redirect:/tours/" + request.getTourId();
         }
-        String email = userDetails.getUsername();
         try {
+            String email = currentUserService.getCurrentUserEmail();
             bookingService.createBooking(email, request);
             redirectAttributes.addFlashAttribute("successMessage", "Đặt tour thành công");
             return "redirect:/bookings";
@@ -61,5 +64,22 @@ public class BookingController {
             redirectAttributes.addFlashAttribute("errorMessage", "Error when booking: " + e.getMessage());
             return "redirect:/tours/" + request.getTourId();
         }
+    }
+
+    @PostMapping("/{id}/cancel")
+    public String cancelBooking(
+            @PathVariable Long id,
+            RedirectAttributes redirectAttributes
+    ) {
+        try {
+            String email = currentUserService.getCurrentUserEmail();
+            bookingService.cancelBooking(id, email);
+            redirectAttributes.addFlashAttribute("successMessage", "Hủy đặt tour thành công");
+
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+
+        return "redirect:/bookings";
     }
 }

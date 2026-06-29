@@ -8,6 +8,10 @@
   </head>
   <body>
     <div layout:fragment="content">
+      <div th:if="${param.registered}" class="alert alert-success">
+        <i class="bi bi-check-circle-fill"></i>
+        Registration successful! Please sign in.
+      </div>
       <!-- Login Container -->
       <div class="login-wrapper">
         <div class="login-container">
@@ -83,15 +87,10 @@
 
               <!-- Social Login -->
               <div class="social-login">
-                <button type="button" class="social-btn google-btn" title="Google">
-                  <span>🔍</span> Google
-                </button>
-                <button type="button" class="social-btn facebook-btn" title="Facebook">
-                  <span>👤</span> Facebook
-                </button>
-                <button type="button" class="social-btn twitter-btn" title="Twitter">
-                  <span>𝕏</span> Twitter
-                </button>
+                <a class="social-btn google-btn"
+                   th:href="@{/oauth2/authorization/google}">
+                  🔍 Google
+                </a>
               </div>
 
               <!-- Register Link -->
