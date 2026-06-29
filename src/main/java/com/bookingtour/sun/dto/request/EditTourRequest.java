@@ -54,4 +54,6 @@ public class EditTourRequest {
     @Builder.Default
     @Valid
     private List<EditTourItineraryRequest> itineraries = new ArrayList<>();
+    private Double averageRating;
+    private Long reviewCount;
 }

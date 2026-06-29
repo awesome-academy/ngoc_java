@@ -13,6 +13,7 @@ import com.bookingtour.sun.exception.ResourceNotFoundException;
 import com.bookingtour.sun.repository.TourImageRepository;
 import com.bookingtour.sun.repository.TourItineraryRepository;
 import com.bookingtour.sun.repository.TourRepository;
+import com.bookingtour.sun.repository.TourReviewRepository;
 import com.bookingtour.sun.specification.TourSpecification;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,7 @@ public class TourService {
     private final TourImageRepository tourImageRepository;
     private final FileStorageService fileStorageService;
     private final TourItineraryRepository tourItineraryRepository;
+    private final TourReviewRepository tourReviewRepository;
 
     @Transactional
     public TourResponse createTour(CreateTourRequest request) {
@@ -194,6 +196,15 @@ public class TourService {
                                 .build())
                         .toList();
         request.setItineraries(itineraries);
+        RatingSummary rating = tourReviewRepository.getRatingSummary(id);
+        if(rating != null){
+            request.setAverageRating(rating.getAverageRating());
+            request.setReviewCount(rating.getReviewCount());
+        }
+        else {
+            request.setAverageRating(0D);
+            request.setReviewCount(0L);
+        }
 
         return request;
     }

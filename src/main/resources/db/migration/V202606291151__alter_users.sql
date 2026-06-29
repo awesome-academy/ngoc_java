@@ -1,0 +1,4 @@
+ALTER TABLE users
+    MODIFY COLUMN password_digest VARCHAR(255) NULL;
+ALTER TABLE users
+    ADD COLUMN login_provider VARCHAR(20) NOT NULL DEFAULT 'LOCAL';
