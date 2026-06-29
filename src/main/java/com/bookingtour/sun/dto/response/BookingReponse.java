@@ -14,6 +14,8 @@ import java.time.LocalDate;
 public class BookingReponse {
     private Long id;
     private Long tourId;
+    private Long userId;
+    private String userName;
     private String tourName;
     private String imageUrl;
     private LocalDate startDate;

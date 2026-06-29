@@ -28,6 +28,7 @@ public class AdminTourController {
     @GetMapping("/new")
     public String createTour(Model model) {
         model.addAttribute("title", "Create Tour");
+        model.addAttribute("activeMenu", "tours");
         model.addAttribute("categories", categoryService.getAllCategories());
         model.addAttribute("tour", new CreateTourRequest());
         model.addAttribute("statuses", TourStatus.values());
@@ -37,6 +38,7 @@ public class AdminTourController {
     @GetMapping()
     public String listTours(@ModelAttribute TourSearchRequest searchForm, Model model) {
         model.addAttribute("title", "Manage Tours");
+        model.addAttribute("activeMenu", "tours");
         PageResponse<TourResponse> pageResponse = tourService.searchTours(searchForm);
 
         model.addAttribute("tours", pageResponse.getContent());
@@ -68,7 +70,7 @@ public class AdminTourController {
             Model model,
             RedirectAttributes redirectAttributes
             ) {
-
+        model.addAttribute("activeMenu", "tours");
         log.info("Received request to create tour: {}", request);
         // validation error
         if (result.hasErrors()) {
@@ -97,6 +99,7 @@ public class AdminTourController {
     public String editTour(
             @PathVariable Long id,
             Model model) {
+        model.addAttribute("activeMenu", "tours");
         try {
             EditTourRequest request = tourService.getTourForEdit(id);
 
