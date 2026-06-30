@@ -26,10 +26,7 @@ public class CreateTourRequest {
     @Size(min = 10, message = "Description must be at least 10 characters")
     private String description;
 
-
     private String departureLocation;
-
-
     private String destination;
 
     @Min(value = 1, message = "Duration must be a positive number")

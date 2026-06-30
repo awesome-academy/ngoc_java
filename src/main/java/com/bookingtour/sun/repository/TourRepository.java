@@ -13,4 +13,6 @@ public interface TourRepository extends JpaRepository<Tour, Long>, JpaSpecificat
     );
 
     long count();
+
+    boolean existsByCategoryId(Long categoryId);
 }

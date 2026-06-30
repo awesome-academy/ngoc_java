@@ -10,10 +10,7 @@ import com.bookingtour.sun.entity.TourImage;
 import com.bookingtour.sun.entity.TourItinerary;
 import com.bookingtour.sun.enums.TourStatus;
 import com.bookingtour.sun.exception.ResourceNotFoundException;
-import com.bookingtour.sun.repository.TourImageRepository;
-import com.bookingtour.sun.repository.TourItineraryRepository;
-import com.bookingtour.sun.repository.TourRepository;
-import com.bookingtour.sun.repository.TourReviewRepository;
+import com.bookingtour.sun.repository.*;
 import com.bookingtour.sun.specification.TourSpecification;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +35,7 @@ public class TourService {
     private final FileStorageService fileStorageService;
     private final TourItineraryRepository tourItineraryRepository;
     private final TourReviewRepository tourReviewRepository;
+    private final BookingRepository bookingRepository;
 
     @Transactional
     public TourResponse createTour(CreateTourRequest request) {
@@ -308,6 +306,9 @@ public class TourService {
 
         Tour tour = tourRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Tour not found with id: " + id));
+        if(bookingRepository.existsByTourId(id)){
+            throw new IllegalStateException("Cannot delete tour because it has bookings");
+        }
 
         List<TourImage> images = tourImageRepository.findByTourId(id);
 

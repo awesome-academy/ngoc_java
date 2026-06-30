@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
@@ -28,9 +29,7 @@ public class EditTourRequest {
     @Size(min = 10, message = "Description must be at least 10 characters")
     private String description;
 
-
     private String departureLocation;
-
 
     private String destination;
 
@@ -42,8 +41,12 @@ public class EditTourRequest {
 
     private BigDecimal price;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate  endDate;
+
     private Long categoryId;
     private TourStatus status;
     private String categoryName;

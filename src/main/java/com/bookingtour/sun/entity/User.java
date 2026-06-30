@@ -6,6 +6,9 @@ import com.bookingtour.sun.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 
@@ -47,6 +50,12 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "login_provider", nullable = false)
     private LoginProvider loginProvider;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Booking> bookings = new ArrayList<>();;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<TourReview> reviews = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {

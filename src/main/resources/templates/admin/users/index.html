@@ -88,6 +88,7 @@
                                     <input type="hidden" name="_method" value="delete">
                                     <button type="submit" class="btn btn-sm btn-outline-danger btn-delete" th:data-id="${user.id}" onclick="return confirm('Are you sure you want to delete this user?');">Delete</button>
                                 </form>
+
                             </td>
                         </tr>
                         <tr th:if="${#lists.isEmpty(users)}">
