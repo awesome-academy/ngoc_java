@@ -81,4 +81,19 @@ public class AdminBookingController {
             return "admin/booking/edit";
         }
     }
+
+    @DeleteMapping("/{id}")
+    public String deleteBooking(
+            @PathVariable Long id,
+            RedirectAttributes redirectAttributes) {
+
+        try {
+            bookingService.deleteBooking(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Delete booking successfully");
+
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        return "redirect:/admin/bookings";
+    }
 }

@@ -12,4 +12,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
 
     @Query("SELECT COUNT(u) FROM User u WHERE u.role = 'USER'")
     long countUsers();
+
+    boolean existsByEmailAndIdNot(String email, Long id);
+    boolean existsByEmail(String email);
 }

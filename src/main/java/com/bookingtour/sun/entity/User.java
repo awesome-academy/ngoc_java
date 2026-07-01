@@ -1,9 +1,13 @@
 package com.bookingtour.sun.entity;
 
+import com.bookingtour.sun.enums.LoginProvider;
 import com.bookingtour.sun.enums.UserRole;
 import com.bookingtour.sun.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -24,7 +28,7 @@ public class User extends BaseEntity {
     @Column(nullable = false, unique = true, length = 100)
     private String email;
 
-    @Column(name = "password_digest", nullable = false)
+    @Column(name = "password_digest")
     private String passwordDigest;
 
     @Column(name = "full_name", length = 100)
@@ -43,6 +47,16 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "login_provider", nullable = false)
+    private LoginProvider loginProvider;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Booking> bookings = new ArrayList<>();;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<TourReview> reviews = new ArrayList<>();
+
     @PrePersist
     protected void onCreate() {
         if (role == null) {
@@ -50,6 +64,10 @@ public class User extends BaseEntity {
         }
         if (status == null) {
             status = UserStatus.ACTIVE; // Default status
+        }
+
+        if (loginProvider == null) {
+            loginProvider = LoginProvider.LOCAL;
         }
     }
 }

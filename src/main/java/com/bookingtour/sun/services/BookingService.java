@@ -6,12 +6,15 @@ import com.bookingtour.sun.entity.Booking;
 import com.bookingtour.sun.entity.Tour;
 import com.bookingtour.sun.entity.TourImage;
 import com.bookingtour.sun.entity.User;
+import com.bookingtour.sun.enums.BookingStatus;
 import com.bookingtour.sun.exception.ResourceNotFoundException;
+import com.bookingtour.sun.exception.UnauthorizedException;
 import com.bookingtour.sun.repository.BookingRepository;
 import com.bookingtour.sun.repository.TourRepository;
 import com.bookingtour.sun.repository.UserRepository;
 import com.bookingtour.sun.specification.AdminBookingSpecification;
 import com.bookingtour.sun.specification.BookingSpecification;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -60,7 +63,7 @@ public class BookingService {
                 request.getSize(),
                 Sort.by(
                         Sort.Direction.DESC,
-                        "bookingDate")
+                        "createdAt")
         );
 
         Page<Booking> bookings =
@@ -135,6 +138,38 @@ public class BookingService {
         booking.setStatus(request.getStatus());
         booking.setNote(request.getNote());
         bookingRepository.save(booking);
+    }
+
+    public void cancelBooking(Long bookingId, String email) {
+        Booking booking = bookingRepository.findById(bookingId)
+                        .orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
+
+        // check booking owner
+        if(!booking.getUser().getEmail().equals(email)) {
+            throw new UnauthorizedException("You cannot cancel this booking");
+        }
+
+        // chỉ pending payment mới được cancel
+        if(booking.getStatus() != BookingStatus.PENDING_PAYMENT){
+            throw new IllegalStateException("Only pending payment booking can be cancelled");
+        }
+        booking.setStatus(BookingStatus.CANCELLED);
+        bookingRepository.save(booking);
+    }
+
+    @Transactional
+    public void deleteBooking(Long id){
+        Booking booking = bookingRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
+        if(isNotAllowDelete(booking.getStatus())){
+            throw new IllegalStateException("Cannot delete confirmed booking");
+        }
+        bookingRepository.delete(booking);
+    }
+
+    private boolean isNotAllowDelete(BookingStatus status) {
+        return status == BookingStatus.CONFIRMED
+                || status == BookingStatus.PAID
+                || status == BookingStatus.COMPLETED;
     }
 
     private BookingReponse toBookingResponse(

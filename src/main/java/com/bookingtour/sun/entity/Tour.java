@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.*;
 import lombok.*;
-import com.bookingtour.sun.entity.Category;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

@@ -17,5 +17,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long>, JpaSpec
         WHERE b.status  IN ('PAID', 'COMPLETED', 'CONFIRMED')
     """)
     BigDecimal getRevenue();
+
+    boolean existsByTourId(Long tourId);
 }
 
